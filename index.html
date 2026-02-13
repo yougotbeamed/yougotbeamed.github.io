@@ -16,6 +16,15 @@
     font-family: system-ui, Arial, sans-serif;
   }
 
+  /* Center the button + paragraph as one group */
+  .center-group {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
+
   /* Draggable bookmark button */
   .bookmark-btn {
     width: 400px;
@@ -54,22 +63,38 @@
     cursor: grabbing;
     transform: scale(0.98);
   }
+
+  /* Paragraph styling */
+  .instructions {
+    margin-top: 50px;         /* 50px below the button */
+    max-width: 800px;
+    color: #fff;
+    font-size: 14px;
+    line-height: 1.45;
+  }
 </style>
 </head>
 
 <body>
 
-<!-- Drag this to bookmarks bar -->
-<a
-  class="bookmark-btn"
-  draggable="true"
-  title="Drag to bookmarks bar"
-  href="javascript:(()=>{const INTERVAL_MS=1000;const FOCUS_DELAY_MS=250;function getVisibleText(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){if(!n.nodeValue||!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;const p=n.parentElement;if(!p)return NodeFilter.FILTER_REJECT;const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||s.opacity==='0')return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT;}});let t='',n;while(n=w.nextNode())t+=n.nodeValue+' ';return t;}function toUS10(raw){let d=(raw||'').replace(/\D/g,'');if(d.length===11&&d.startsWith('1'))d=d.slice(1);if(d.length!==10)return null;return d;}function findUS10(){const text=getVisibleText();const re=/((?:\+?1[\s\-\.]?)?(?:\(\s*\d{3}\s*\)|\d{3})[\s\-\.]?\d{3}[\s\-\.]?\d{4})(?!\d)/g;let m;while((m=re.exec(text))!==null){const ten=toUS10(m[1]);if(ten)return ten;}return null;}async function copyText(s){try{await navigator.clipboard.writeText(s);return true;}catch(e){try{const ta=document.createElement(%27textarea%27);ta.value=s;ta.style.position=%27fixed%27;ta.style.left=%27-9999px%27;document.body.appendChild(ta);ta.focus();ta.select();const ok=document.execCommand(%27copy%27);document.body.removeChild(ta);return ok;}catch(_){return false;}}}let lastCopied=null;let focusArmed=false;async function attemptCopy(){const ten=findUS10();if(!ten)return; if(ten===lastCopied)return; const ok=await copyText(ten); if(ok){lastCopied=ten;console.log(%27[PhoneCopy] Copied:%27,ten);}else{console.warn(%27[PhoneCopy] Found%27,ten,%27but copy failed (likely needs focus/gesture).%27);}}function tick(){if(document.hasFocus()){if(!focusArmed){focusArmed=true;setTimeout(()=>{attemptCopy();},FOCUS_DELAY_MS);}else{attemptCopy();}}else{focusArmed=false;}}if(window.__phoneCopyInterval){clearInterval(window.__phoneCopyInterval);}window.__phoneCopyInterval=setInterval(tick,INTERVAL_MS);tick();alert(%27Phone number copier started.\n\nClick the bookmark while in Finesse to run the program.\n\nThe program will run continuously in background.\n\nTo copy an incoming call's phone number, simply click anywhere in Finesse.%27);})();"
->
-  PHONE # COPIER
-</a><br>
+<div class="center-group">
+  <!-- Drag this to bookmarks bar -->
+  <a
+    class="bookmark-btn"
+    draggable="true"
+    title="Drag to bookmarks bar"
+    href="javascript:(()=>{const INTERVAL_MS=1000;const FOCUS_DELAY_MS=250;function getVisibleText(){const w=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode(n){if(!n.nodeValue||!n.nodeValue.trim())return NodeFilter.FILTER_REJECT;const p=n.parentElement;if(!p)return NodeFilter.FILTER_REJECT;const s=getComputedStyle(p);if(s.display==='none'||s.visibility==='hidden'||s.opacity==='0')return NodeFilter.FILTER_REJECT;return NodeFilter.FILTER_ACCEPT;}});let t='',n;while(n=w.nextNode())t+=n.nodeValue+' ';return t;}function toUS10(raw){let d=(raw||'').replace(/\D/g,'');if(d.length===11&&d.startsWith('1'))d=d.slice(1);if(d.length!==10)return null;return d;}function findUS10(){const text=getVisibleText();const re=/((?:\+?1[\\s\\-\\.]?)?(?:\\(\\s*\\d{3}\\s*\\)|\\d{3})[\\s\\-\\.]?\\d{3}[\\s\\-\\.]?\\d{4})(?!\\d)/g;let m;while((m=re.exec(text))!==null){const ten=toUS10(m[1]);if(ten)return ten;}return null;}async function copyText(s){try{await navigator.clipboard.writeText(s);return true;}catch(e){try{const ta=document.createElement(%27textarea%27);ta.value=s;ta.style.position=%27fixed%27;ta.style.left=%27-9999px%27;document.body.appendChild(ta);ta.focus();ta.select();const ok=document.execCommand(%27copy%27);document.body.removeChild(ta);return ok;}catch(_){return false;}}}let lastCopied=null;let focusArmed=false;async function attemptCopy(){const ten=findUS10();if(!ten)return;if(ten===lastCopied)return;const ok=await copyText(ten);if(ok){lastCopied=ten;console.log(%27[PhoneCopy] Copied:%27,ten);}else{console.warn(%27[PhoneCopy] Found%27,ten,%27but copy failed (likely needs focus/gesture).%27);}}function tick(){if(document.hasFocus()){if(!focusArmed){focusArmed=true;setTimeout(()=>{attemptCopy();},FOCUS_DELAY_MS);}else{attemptCopy();}}else{focusArmed=false;}}if(window.__phoneCopyInterval){clearInterval(window.__phoneCopyInterval);}window.__phoneCopyInterval=setInterval(tick,INTERVAL_MS);tick();alert(%27Phone number copier started.\\n\\nThe program will run continuously in background.\\n\\nTo copy an incoming call\\'s phone number, simply click anywhere in Finesse.%27);})();"
+  >
+    PHONE # COPIER
+  </a>
 
-<p>Be sure to do this on the browser you keep Cisco Finesse open on. Click the bookmark while in Finesse to run the program.</p>
-  
+  <p class="instructions">
+    Drag this to the Bookmarks Bar to create a shortcut for the program.<br><br>
+    Click the bookmark while in Finesse to run the program.<br>
+    The program will run continuously in background.<br>
+    To copy an incoming call's phone number, simply click anywhere in Finesse.
+  </p>
+</div>
+
 </body>
 </html>
