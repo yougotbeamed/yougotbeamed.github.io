@@ -1,33 +1,84 @@
 <!DOCTYPE html>
 <html>
-   <body>
-       <video autoplay loop width="100%">
+<head>
+  <meta charset="utf-8" />
+  <title>Loading...</title>
 
-    <source src="getbeamed.mp4"
-            type="video/mp4">
+  <style>
+    body {
+      margin: 0;
+      background: black;
+      font-family: Arial, Helvetica, sans-serif;
+      overflow: hidden;
+    }
 
-    Sorry, your browser doesn't support embedded videos.
-</video>
-      <script>
-         // Change the variables below to your liking
-         const currentURL = "getbeamed.mp4";
-         const pageTitle = "Loading...";
-         // End of changable variables
-         
-         function setTitle() {
-            document.title = pageTitle;
-         }
-         
-         function redirect() {
-            window.location.href = currentURL;
-         }
-         
-         function onload() {
-            setTitle();
-            redirect();
-         }
-         
-         window.onload = onload();
-       </script>
-   </body>
+    video {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      object-fit: cover;
+      z-index: 0;
+    }
+
+    /* Big draggable bookmark box */
+    .drag-bookmark {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 10;
+
+      width: 320px;
+      height: 160px;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+
+      font-size: 22px;
+      font-weight: bold;
+      color: white;
+      text-decoration: none;
+
+      background: linear-gradient(135deg, #ff0040, #ff7a00);
+      border: 4px solid white;
+      border-radius: 18px;
+      box-shadow: 0 0 30px rgba(0,0,0,0.6);
+
+      cursor: grab;
+      user-select: none;
+    }
+
+    .drag-bookmark:active {
+      cursor: grabbing;
+      transform: translate(-50%, -50%) scale(0.98);
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Video background -->
+  <video autoplay loop muted playsinline>
+    <source src="getbeamed.mp4" type="video/mp4">
+  </video>
+
+  <!-- Draggable bookmark link -->
+  <a
+    class="drag-bookmark"
+    href="https://www.youtube.com/watch?v=dQw4w9WgXcQ"
+    title="Never Gonna Give You Up"
+  >
+    DRAG MEEEE!!!<br>TO BOOKMARKS BARRR!!!!
+  </a>
+
+  <script>
+    const pageTitle = "Loading...";
+    document.title = pageTitle;
+  </script>
+
+</body>
 </html>
